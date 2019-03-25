@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">StudentAccount</string>
+    <string name="login">Логин</string>
+    <string name="Пароль">Пароль</string>
+    <string name="loginBtnText">Войти</string>
+    <string name="waitingForAuthorization">Авторизация. Ожидайте.</string>
+    <string name="waitingForData">Загрузка данных. Ожидайте.</string>
+    <string name="onFailureResponseMessage">Ошибка при отправке данных.</string>
+    <string name="needInternet">Для работы необходим интернет.</string>
+    <string name="authTokenName">token</string>
+    <string name="Shared_preferences_file_name">StudentAccountFile1</string>
+
+</resources>
