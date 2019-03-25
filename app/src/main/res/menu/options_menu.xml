@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <item
+        android:id="@+id/shedule"
+        android:title="-Расписание"
+        />
+    <item
+        android:id="@+id/RdpFos"
+        android:title="-Программы дисциплин"
+        />
+    <item
+        android:id="@+id/addArticle"
+        android:title="-Добавить статью"
+        />
+    <item
+        android:id="@+id/logout"
+        android:title="Выход"
+        />
+</menu>

@@ -8,6 +8,9 @@
     <string name="onFailureResponseMessage">Ошибка при отправке данных.</string>
     <string name="needInternet">Для работы необходим интернет.</string>
     <string name="authTokenName">token</string>
-    <string name="Shared_preferences_file_name">StudentAccountFile1</string>
+    <string name="Shared_preferences_file_name">StudentAccountFile</string>
+
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
 
 </resources>

@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import ru.kbbmstu.studentaccount.Fragments.SimpleFragment;
+import ru.kbbmstu.studentaccount.Fragments.StudentInfo;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private int tabsNumber;
@@ -15,6 +16,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
     public PagerAdapter(FragmentManager fragmentManager, int tabsNumber) {
         super(fragmentManager);
         this.tabsNumber = tabsNumber;
+//        fragmentList.add(new StudentInfo());
         fragmentList.add(new SimpleFragment());
         fragmentList.add(new SimpleFragment());
         fragmentList.add(new SimpleFragment());

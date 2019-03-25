@@ -1,6 +1,7 @@
 package ru.kbbmstu.studentaccount.ResponseHandlers;
 
 import android.support.v7.app.AppCompatActivity;
+import android.widget.TextView;
 import android.widget.Toast;
 
 import org.json.JSONException;
@@ -32,6 +33,8 @@ public final class StudentInfoHandler extends CustomJsonHttpResponseHandler {
             }
             if (context instanceof MainActivity){
                 MainActivity mainActivity = (MainActivity)context;
+                TextView tv = mainActivity.findViewById(R.id.tv123);
+                tv.setText(response.getJSONObject("Body").toString());
                 Toast.makeText(context, response.getJSONObject("Body").toString(), Toast.LENGTH_LONG).show();
             }
         } catch (JSONException e) {
