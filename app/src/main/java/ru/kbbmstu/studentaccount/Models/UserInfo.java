@@ -1,7 +1,17 @@
 package ru.kbbmstu.studentaccount.Models;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 public final class UserInfo {
-    public String number;
+    private String number;
+    private String fullName;
+    private String group;
+    private String field;
+    private String fieldProfile;
+    private String fieldCode;
+    private String department;
+    private String facultyName;
 
     public String getNumber() {
         return number;
@@ -19,28 +29,20 @@ public final class UserInfo {
         this.fullName = fullName;
     }
 
-    public String getTeam() {
-        return team;
+    public String getGroup() {
+        return group;
     }
 
-    public void setTeam(String team) {
-        this.team = team;
+    public void setGroup(String team) {
+        this.group = team;
     }
 
-    public String getTeamNumber() {
-        return teamNumber;
+    public String getField() {
+        return field;
     }
 
-    public void setTeamNumber(String teamNumber) {
-        this.teamNumber = teamNumber;
-    }
-
-    public String getFieldName() {
-        return fieldName;
-    }
-
-    public void setFieldName(String fieldName) {
-        this.fieldName = fieldName;
+    public void setField(String field) {
+        this.field = field;
     }
 
     public String getFieldCode() {
@@ -59,15 +61,15 @@ public final class UserInfo {
         this.fieldProfile = fieldProfile;
     }
 
-    public String getDepartmentName() {
-        return departmentName;
+    public String getDepartment() {
+        return department;
     }
 
-    public void setDepartmentName(String departmentName) {
-        this.departmentName = departmentName;
+    public void setDepartment(String department) {
+        this.department = department;
     }
 
-    public String getFacultyName() {
+    public String getFaculty() {
         return facultyName;
     }
 
@@ -75,34 +77,28 @@ public final class UserInfo {
         this.facultyName = facultyName;
     }
 
-    public String getFacultyShortName() {
-        return facultyShortName;
-    }
-
-    public void setFacultyShortName(String facultyShortName) {
-        this.facultyShortName = facultyShortName;
-    }
-
-    public String fullName;
-    public String team;
-    public String teamNumber;
-    public String fieldName;
-    public String fieldCode;
-    public String fieldProfile;
-    public String departmentName;
-    public String facultyName;
-    public String facultyShortName;
-
-    public UserInfo(String number, String fullName, String team, String teamNumber, String fieldName, String fieldCode, String fieldProfile, String departmentName, String facultyName, String facultyShortName) {
+    public UserInfo(String number, String fullName, String group, String field, String fieldCode, String fieldProfile, String department, String facultyName) {
         this.number = number;
         this.fullName = fullName;
-        this.team = team;
-        this.teamNumber = teamNumber;
-        this.fieldName = fieldName;
+        this.group = group;
+        this.field = field;
         this.fieldCode = fieldCode;
         this.fieldProfile = fieldProfile;
-        this.departmentName = departmentName;
+        this.department = department;
         this.facultyName = facultyName;
-        this.facultyShortName = facultyShortName;
+    }
+
+    public UserInfo(JSONObject json) {
+        try {
+            number = json.getString("Number");
+            fullName = json.getString("FullName");
+            group = String.format("%s-%s", json.getString("Team"), json.getString("TeamNumber"));
+            field = String.format("%s(%s)", json.getString("FieldName"), json.getString("FieldCode"));
+            department = String.format("%s(%s)", json.getString("DepartmentName"), json.getString("DepartmentShortName"));
+            facultyName = String.format("%s(%s)", json.getString("FacultyName"), json.getString("FacultyShortName"));
+            fieldProfile = json.getString("FieldProfile");
+        } catch (JSONException e) {
+            e.printStackTrace();
+        }
     }
 }

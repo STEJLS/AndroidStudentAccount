@@ -9,6 +9,7 @@ import org.json.JSONObject;
 
 import cz.msebera.android.httpclient.Header;
 import ru.kbbmstu.studentaccount.Activities.MainActivity;
+import ru.kbbmstu.studentaccount.Models.UserInfo;
 import ru.kbbmstu.studentaccount.R;
 
 public final class StudentInfoHandler extends CustomJsonHttpResponseHandler {
@@ -33,9 +34,9 @@ public final class StudentInfoHandler extends CustomJsonHttpResponseHandler {
             }
             if (context instanceof MainActivity){
                 MainActivity mainActivity = (MainActivity)context;
-                TextView tv = mainActivity.findViewById(R.id.tv123);
-                tv.setText(response.getJSONObject("Body").toString());
-                Toast.makeText(context, response.getJSONObject("Body").toString(), Toast.LENGTH_LONG).show();
+
+                UserInfo ui = new UserInfo(response.getJSONObject("Body"));
+                mainActivity.UpdateSimpleFragment(ui);
             }
         } catch (JSONException e) {
             e.printStackTrace();

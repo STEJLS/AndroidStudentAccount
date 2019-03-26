@@ -12,6 +12,8 @@ import android.view.MenuItem;
 import android.widget.Button;
 import android.widget.EditText;
 
+import ru.kbbmstu.studentaccount.Fragments.SimpleFragment;
+import ru.kbbmstu.studentaccount.Models.UserInfo;
 import ru.kbbmstu.studentaccount.PagerAdapter;
 import ru.kbbmstu.studentaccount.R;
 import ru.kbbmstu.studentaccount.Utils.HttpClient;
@@ -19,13 +21,8 @@ import ru.kbbmstu.studentaccount.Utils.HttpClient;
 import android.support.design.widget.TabLayout;
 import android.widget.Toast;
 
-import java.util.zip.Inflater;
-
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences settings;
-    private EditText test;
-    private Button logoutButton;
-
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private PagerAdapter pagerAdapter;
@@ -70,13 +67,11 @@ public class MainActivity extends AppCompatActivity {
 
         tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
-
-
-        initTab();
     }
 
     @Override
     protected void onResume() {
+        initTab();
         HttpClient.GetUserInfo(this);
         super.onResume();
     }
@@ -85,16 +80,12 @@ public class MainActivity extends AppCompatActivity {
         return settings;
     }
 
-    public EditText getTest() {
-        return test;
-    }
-
     private void initTab(){
         viewPager = findViewById(R.id.pager);
         pagerAdapter = new PagerAdapter(getSupportFragmentManager(), tabLayout.getTabCount());
         viewPager.setAdapter(pagerAdapter);
         viewPager.addOnPageChangeListener(new TabLayout.TabLayoutOnPageChangeListener(tabLayout));
-        viewPager.setOffscreenPageLimit(tabLayout.getTabCount()-1);
+        viewPager.setOffscreenPageLimit(tabLayout.getTabCount());
         tabLayout.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener() {
             @Override
             public void onTabSelected(TabLayout.Tab tab) {
@@ -111,5 +102,18 @@ public class MainActivity extends AppCompatActivity {
 
             }
         });
+    }
+
+    private SimpleFragment getSimpleFragment() {
+        for (int i = 0; i < pagerAdapter.getCount(); i++) {
+            if (pagerAdapter.getItem(i) instanceof SimpleFragment) {
+                return (SimpleFragment) pagerAdapter.getItem(i);
+            }
+        }
+        return null;
+    }
+
+    public void UpdateSimpleFragment(UserInfo model) {
+        getSimpleFragment().updateModel(model);
     }
 }

@@ -11,18 +11,22 @@ import ru.kbbmstu.studentaccount.Fragments.StudentInfo;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private int tabsNumber;
-    private final List<Fragment> fragmentList = new ArrayList<>();
-
+    private List<Fragment> fragmentList;
     public PagerAdapter(FragmentManager fragmentManager, int tabsNumber) {
         super(fragmentManager);
-        this.tabsNumber = tabsNumber;
-//        fragmentList.add(new StudentInfo());
-        fragmentList.add(new SimpleFragment());
-        fragmentList.add(new SimpleFragment());
-        fragmentList.add(new SimpleFragment());
-        fragmentList.add(new SimpleFragment());
-        fragmentList.add(new SimpleFragment());
+        fragmentList = fragmentManager.getFragments();
+        if (fragmentList.size() == 0) {
+            fragmentList = new ArrayList<>();
+            fragmentList.add(new SimpleFragment());
+            fragmentList.add(new SimpleFragment());
+            fragmentList.add(new SimpleFragment());
+            fragmentList.add(new SimpleFragment());
+            fragmentList.add(new SimpleFragment());
+        }
+        this.tabsNumber = fragmentList.size();
+
     }
+
 
     @Override
     public Fragment getItem(int position) {
