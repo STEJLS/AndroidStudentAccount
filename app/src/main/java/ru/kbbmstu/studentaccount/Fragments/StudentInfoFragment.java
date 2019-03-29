@@ -6,12 +6,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import ru.kbbmstu.studentaccount.Models.UserInfo;
 import ru.kbbmstu.studentaccount.R;
 
-public class SimpleFragment extends Fragment {
+public class StudentInfoFragment extends Fragment {
     TextView firstName;
     TextView secondName;
     TextView patronymic;
@@ -29,7 +28,7 @@ public class SimpleFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        View view = inflater.inflate(R.layout.fragment_simple, container, false);
+        View view = inflater.inflate(R.layout.fragment_student_info, container, false);
         firstName = view.findViewById(R.id.firstName);
         secondName = view.findViewById(R.id.secondName);
         patronymic = view.findViewById(R.id.patronymic);

@@ -7,4 +7,5 @@ public class Urls {
     public static String Login = root + "/account/login";
     public static String Logout = root + "/account/logout";
     public static String StudentInfo = root + "/student/info";
+    public static String StudentMarks = root + "/student/marks";
 }

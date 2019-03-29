@@ -23,6 +23,7 @@ import ru.kbbmstu.studentaccount.Models.User;
 import ru.kbbmstu.studentaccount.R;
 import ru.kbbmstu.studentaccount.ResponseHandlers.LoginHandler;
 import ru.kbbmstu.studentaccount.ResponseHandlers.StudentInfoHandler;
+import ru.kbbmstu.studentaccount.ResponseHandlers.StudentMarksHandler;
 import ru.kbbmstu.studentaccount.Urls;
 
 import static ru.kbbmstu.studentaccount.Utils.Internet.CheckConnection;
@@ -41,16 +42,28 @@ public final class HttpClient {
         client.post(Urls.Login, params, new LoginHandler(context, cookieStore));
     }
 
-    public static void GetUserInfo(final MainActivity context){
-        client.removeHeader("Cookie");
-        client.addHeader("Cookie", "token="+context.getSettings().getString("token",""));
-        client.get(Urls.StudentInfo, null, new StudentInfoHandler(context));
+    public static void Logout(final MainActivity context){
+        setCookie(context);
+        client.post(Urls.Logout, null, new JsonHttpResponseHandler());
     }
 
-    public static void Logout(final MainActivity context){
+    public static void GetStudentInfo(final MainActivity context) {
+        getWithCookie(context, Urls.StudentInfo, new StudentInfoHandler(context));
+    }
+
+    public static void GetStudentMarks(MainActivity context) {
+        getWithCookie(context, Urls.StudentMarks, new StudentMarksHandler(context));
+    }
+
+    // Supporting functions
+    private static void getWithCookie(MainActivity context, String url, JsonHttpResponseHandler handler) {
+        setCookie(context);
+        client.get(url, null, handler);
+    }
+
+    private static void setCookie(MainActivity context) {
         client.removeHeader("Cookie");
         client.addHeader("Cookie", "token="+context.getSettings().getString("token",""));
-        client.post(Urls.Logout, null, new JsonHttpResponseHandler());
     }
 }
 

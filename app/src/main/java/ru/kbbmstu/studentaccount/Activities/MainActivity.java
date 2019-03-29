@@ -9,10 +9,10 @@ import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
-import android.widget.Button;
-import android.widget.EditText;
 
-import ru.kbbmstu.studentaccount.Fragments.SimpleFragment;
+import ru.kbbmstu.studentaccount.Fragments.StudentInfoFragment;
+import ru.kbbmstu.studentaccount.Fragments.StudentMarksFragment;
+import ru.kbbmstu.studentaccount.Models.Mark;
 import ru.kbbmstu.studentaccount.Models.UserInfo;
 import ru.kbbmstu.studentaccount.PagerAdapter;
 import ru.kbbmstu.studentaccount.R;
@@ -20,6 +20,9 @@ import ru.kbbmstu.studentaccount.Utils.HttpClient;
 
 import android.support.design.widget.TabLayout;
 import android.widget.Toast;
+
+import java.util.ArrayList;
+import java.util.List;
 
 public class MainActivity extends AppCompatActivity {
     private SharedPreferences settings;
@@ -72,7 +75,8 @@ public class MainActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         initTab();
-        HttpClient.GetUserInfo(this);
+        HttpClient.GetStudentInfo(this);
+        HttpClient.GetStudentMarks(this);
         super.onResume();
     }
 
@@ -104,16 +108,29 @@ public class MainActivity extends AppCompatActivity {
         });
     }
 
-    private SimpleFragment getSimpleFragment() {
+    private StudentInfoFragment getStudentInfoFragment() {
         for (int i = 0; i < pagerAdapter.getCount(); i++) {
-            if (pagerAdapter.getItem(i) instanceof SimpleFragment) {
-                return (SimpleFragment) pagerAdapter.getItem(i);
+            if (pagerAdapter.getItem(i) instanceof StudentInfoFragment) {
+                return (StudentInfoFragment) pagerAdapter.getItem(i);
             }
         }
         return null;
     }
 
-    public void UpdateSimpleFragment(UserInfo model) {
-        getSimpleFragment().updateModel(model);
+    private StudentMarksFragment getStudentMarksFragment() {
+        for (int i = 0; i < pagerAdapter.getCount(); i++) {
+            if (pagerAdapter.getItem(i) instanceof StudentMarksFragment) {
+                return (StudentMarksFragment) pagerAdapter.getItem(i);
+            }
+        }
+        return null;
+    }
+
+    public void UpdateStudentInfoFragment(UserInfo model) {
+        getStudentInfoFragment().updateModel(model);
+    }
+
+    public void UpdateStudentMarksFragment(ArrayList<Mark> marks) {
+        getStudentMarksFragment().updateModel(marks);
     }
 }

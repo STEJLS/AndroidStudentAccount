@@ -6,8 +6,8 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
-import ru.kbbmstu.studentaccount.Fragments.SimpleFragment;
-import ru.kbbmstu.studentaccount.Fragments.StudentInfo;
+import ru.kbbmstu.studentaccount.Fragments.StudentInfoFragment;
+import ru.kbbmstu.studentaccount.Fragments.StudentMarksFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private int tabsNumber;
@@ -17,11 +17,11 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
         fragmentList = fragmentManager.getFragments();
         if (fragmentList.size() == 0) {
             fragmentList = new ArrayList<>();
-            fragmentList.add(new SimpleFragment());
-            fragmentList.add(new SimpleFragment());
-            fragmentList.add(new SimpleFragment());
-            fragmentList.add(new SimpleFragment());
-            fragmentList.add(new SimpleFragment());
+            fragmentList.add(new StudentInfoFragment());
+            fragmentList.add(new StudentMarksFragment());
+            fragmentList.add(new StudentInfoFragment());
+            fragmentList.add(new StudentInfoFragment());
+            fragmentList.add(new StudentInfoFragment());
         }
         this.tabsNumber = fragmentList.size();
 
