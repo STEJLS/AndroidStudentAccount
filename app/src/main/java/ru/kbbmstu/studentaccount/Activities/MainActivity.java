@@ -12,7 +12,9 @@ import android.view.MenuItem;
 
 import ru.kbbmstu.studentaccount.Fragments.StudentInfoFragment;
 import ru.kbbmstu.studentaccount.Fragments.StudentMarksFragment;
+import ru.kbbmstu.studentaccount.Fragments.StudentPracticesFragment;
 import ru.kbbmstu.studentaccount.Models.Mark;
+import ru.kbbmstu.studentaccount.Models.Practice;
 import ru.kbbmstu.studentaccount.Models.UserInfo;
 import ru.kbbmstu.studentaccount.PagerAdapter;
 import ru.kbbmstu.studentaccount.R;
@@ -77,6 +79,7 @@ public class MainActivity extends AppCompatActivity {
         initTab();
         HttpClient.GetStudentInfo(this);
         HttpClient.GetStudentMarks(this);
+        HttpClient.GetStudentPractices(this);
         super.onResume();
     }
 
@@ -126,11 +129,27 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    private StudentPracticesFragment getStudentPracticesFragment() {
+        for (int i = 0; i < pagerAdapter.getCount(); i++) {
+            if (pagerAdapter.getItem(i) instanceof StudentPracticesFragment) {
+                return (StudentPracticesFragment) pagerAdapter.getItem(i);
+            }
+        }
+        return null;
+    }
+
     public void UpdateStudentInfoFragment(UserInfo model) {
         getStudentInfoFragment().updateModel(model);
     }
 
     public void UpdateStudentMarksFragment(ArrayList<Mark> marks) {
         getStudentMarksFragment().updateModel(marks);
+
     }
+
+    public void UpdateStudentPracticesFragment(ArrayList<Practice> practices) {
+        getStudentPracticesFragment().updateModel(practices);
+    }
+
+
 }

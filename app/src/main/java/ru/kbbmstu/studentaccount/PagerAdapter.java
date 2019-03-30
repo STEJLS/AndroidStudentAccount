@@ -8,6 +8,7 @@ import java.util.List;
 
 import ru.kbbmstu.studentaccount.Fragments.StudentInfoFragment;
 import ru.kbbmstu.studentaccount.Fragments.StudentMarksFragment;
+import ru.kbbmstu.studentaccount.Fragments.StudentPracticesFragment;
 
 public class PagerAdapter extends FragmentStatePagerAdapter {
     private int tabsNumber;
@@ -19,7 +20,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             fragmentList = new ArrayList<>();
             fragmentList.add(new StudentInfoFragment());
             fragmentList.add(new StudentMarksFragment());
-            fragmentList.add(new StudentInfoFragment());
+            fragmentList.add(new StudentPracticesFragment());
             fragmentList.add(new StudentInfoFragment());
             fragmentList.add(new StudentInfoFragment());
         }

@@ -1,4 +1,4 @@
-package ru.kbbmstu.studentaccount;
+package ru.kbbmstu.studentaccount.ArrayAdapters;
 
 import android.content.Context;
 import android.graphics.Color;
@@ -16,16 +16,17 @@ import android.widget.TextView;
 import java.util.List;
 
 import ru.kbbmstu.studentaccount.Models.Mark;
+import ru.kbbmstu.studentaccount.R;
 
 public final class MarkAdapter extends ArrayAdapter<Mark> {
 
     private LayoutInflater inflater;
     private int layout;
-    private List<Mark> states;
+    private List<Mark> marks;
 
-    public MarkAdapter(Context context, int resource, List<Mark> states) {
-        super(context, resource, states);
-        this.states = states;
+    public MarkAdapter(Context context, int resource, List<Mark> marks) {
+        super(context, resource, marks);
+        this.marks = marks;
         this.layout = resource;
         this.inflater = LayoutInflater.from(context);
     }
@@ -39,7 +40,7 @@ public final class MarkAdapter extends ArrayAdapter<Mark> {
         TextView passType = (TextView) view.findViewById(R.id.passtype);
         TextView repass = (TextView) view.findViewById(R.id.repass);
 
-        Mark mark = states.get(position);
+        Mark mark = marks.get(position);
 
         if (mark.getSubject().startsWith("Семестр")) {
             subject.setText(mark.getSubject());

@@ -8,4 +8,6 @@ public class Urls {
     public static String Logout = root + "/account/logout";
     public static String StudentInfo = root + "/student/info";
     public static String StudentMarks = root + "/student/marks";
+    public static String StudentPractices = root + "/student/practices";
+    public static String StudentArticles = root + "/student/articles";
 }

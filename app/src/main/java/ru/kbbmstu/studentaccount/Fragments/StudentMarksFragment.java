@@ -2,7 +2,6 @@ package ru.kbbmstu.studentaccount.Fragments;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -11,7 +10,7 @@ import android.widget.ListView;
 
 import java.util.ArrayList;
 
-import ru.kbbmstu.studentaccount.MarkAdapter;
+import ru.kbbmstu.studentaccount.ArrayAdapters.MarkAdapter;
 import ru.kbbmstu.studentaccount.Models.Mark;
 import ru.kbbmstu.studentaccount.R;
 
