@@ -6,6 +6,7 @@ import android.support.v4.app.FragmentStatePagerAdapter;
 import java.util.ArrayList;
 import java.util.List;
 
+import ru.kbbmstu.studentaccount.Fragments.StudentArticlesFragment;
 import ru.kbbmstu.studentaccount.Fragments.StudentInfoFragment;
 import ru.kbbmstu.studentaccount.Fragments.StudentMarksFragment;
 import ru.kbbmstu.studentaccount.Fragments.StudentPracticesFragment;
@@ -21,7 +22,7 @@ public class PagerAdapter extends FragmentStatePagerAdapter {
             fragmentList.add(new StudentInfoFragment());
             fragmentList.add(new StudentMarksFragment());
             fragmentList.add(new StudentPracticesFragment());
-            fragmentList.add(new StudentInfoFragment());
+            fragmentList.add(new StudentArticlesFragment());
             fragmentList.add(new StudentInfoFragment());
         }
         this.tabsNumber = fragmentList.size();

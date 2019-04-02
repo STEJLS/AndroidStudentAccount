@@ -10,9 +10,11 @@ import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 
+import ru.kbbmstu.studentaccount.Fragments.StudentArticlesFragment;
 import ru.kbbmstu.studentaccount.Fragments.StudentInfoFragment;
 import ru.kbbmstu.studentaccount.Fragments.StudentMarksFragment;
 import ru.kbbmstu.studentaccount.Fragments.StudentPracticesFragment;
+import ru.kbbmstu.studentaccount.Models.Article;
 import ru.kbbmstu.studentaccount.Models.Mark;
 import ru.kbbmstu.studentaccount.Models.Practice;
 import ru.kbbmstu.studentaccount.Models.UserInfo;
@@ -76,10 +78,13 @@ public class MainActivity extends AppCompatActivity {
 
     @Override
     protected void onResume() {
-        initTab();
-        HttpClient.GetStudentInfo(this);
-        HttpClient.GetStudentMarks(this);
-        HttpClient.GetStudentPractices(this);
+        if (pagerAdapter == null) {
+            initTab();
+            HttpClient.GetStudentInfo(this);
+            HttpClient.GetStudentMarks(this);
+            HttpClient.GetStudentPractices(this);
+            HttpClient.GetStudentArticles(this);
+        }
         super.onResume();
     }
 
@@ -138,6 +143,15 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    private StudentArticlesFragment getStudentArticlesFragment() {
+        for (int i = 0; i < pagerAdapter.getCount(); i++) {
+            if (pagerAdapter.getItem(i) instanceof StudentArticlesFragment) {
+                return (StudentArticlesFragment) pagerAdapter.getItem(i);
+            }
+        }
+        return null;
+    }
+
     public void UpdateStudentInfoFragment(UserInfo model) {
         getStudentInfoFragment().updateModel(model);
     }
@@ -152,4 +166,7 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    public void UpdateStudentArticlesFragment(ArrayList<Article> articles) {
+        getStudentArticlesFragment().updateModel(articles);
+    }
 }
