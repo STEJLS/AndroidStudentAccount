@@ -6,17 +6,8 @@ public final class Article {
     private String journal;
     private String biblioRecord;
     private String articlType;
+    private String fileName;
     private boolean confirmed;
-
-    public boolean isFile() {
-        return file;
-    }
-
-    public void setFile(boolean file) {
-        this.file = file;
-    }
-
-    private boolean file;
 
 
     public Article(int id, String name, String journal, String biblioRecord, String articlType, boolean confirmed, String fileName) {
@@ -26,12 +17,16 @@ public final class Article {
         this.biblioRecord = biblioRecord;
         this.articlType = articlType;
         this.confirmed = confirmed;
-        if (fileName.isEmpty())
-            this.file = false;
-        else
-            this.file = true;
+        this.fileName = fileName;
     }
 
+    public String getFileName() {
+        return fileName;
+    }
+
+    public void setFileName(String fileName) {
+        this.fileName = fileName;
+    }
     public int getId() {
         return id;
     }

@@ -1,13 +1,20 @@
 package ru.kbbmstu.studentaccount.Utils;
 
+import android.content.Context;
+import android.os.Environment;
+
 import com.loopj.android.http.AsyncHttpClient;
 import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
+import java.io.File;
+
+import ru.kbbmstu.studentaccount.Activities.ArticleActivity;
 import ru.kbbmstu.studentaccount.Activities.LoginActivity;
 import ru.kbbmstu.studentaccount.Activities.MainActivity;
 import ru.kbbmstu.studentaccount.Models.User;
+import ru.kbbmstu.studentaccount.ResponseHandlers.ArticleResponseHandler;
 import ru.kbbmstu.studentaccount.ResponseHandlers.LoginHandler;
 import ru.kbbmstu.studentaccount.ResponseHandlers.StudentArticlesHandler;
 import ru.kbbmstu.studentaccount.ResponseHandlers.StudentInfoHandler;
@@ -50,6 +57,11 @@ public final class HttpClient {
         getWithCookie(context, Urls.StudentArticles, new StudentArticlesHandler(context));
     }
 
+    public static void GetStudentArticle(ArticleActivity context, String id, File file) {
+        client.removeHeader("Cookie");
+        client.addHeader("Cookie", "token=" + context.getSettings().getString("token", ""));
+        client.get(Urls.GetArticle + id, null, new ArticleResponseHandler(context, file));
+    }
 
     // Supporting functions
     private static void getWithCookie(MainActivity context, String url, JsonHttpResponseHandler handler) {

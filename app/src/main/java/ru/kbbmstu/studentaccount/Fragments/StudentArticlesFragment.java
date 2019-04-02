@@ -7,21 +7,15 @@ import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
-import android.widget.ListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import ru.kbbmstu.studentaccount.Activities.ArticleActivity;
-import ru.kbbmstu.studentaccount.Activities.MainActivity;
 import ru.kbbmstu.studentaccount.Models.Article;
 import ru.kbbmstu.studentaccount.R;
 
@@ -129,17 +123,16 @@ public class StudentArticlesFragment extends Fragment {
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
-                Toast.makeText(context, getArticlesArrayByGroupPosition(groupPosition).get(childPosition).getName(), Toast.LENGTH_LONG).show();
 
                 Article article = getArticlesArrayByGroupPosition(groupPosition).get(childPosition);
                 Intent intent = new Intent(context, ArticleActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("id", article.getId());
+                intent.putExtra("id", String.valueOf(article.getId()));
                 intent.putExtra("name", article.getName());
                 intent.putExtra("journal", article.getJournal());
                 intent.putExtra("biblioRecord", article.getBiblioRecord());
                 intent.putExtra("articlType", article.getArticlType());
-                intent.putExtra("isFile", article.isFile());
+                intent.putExtra("fileName", article.getFileName());
 
                 startActivity(intent);
 
