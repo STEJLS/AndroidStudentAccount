@@ -15,23 +15,16 @@ import java.io.File;
 import ru.kbbmstu.studentaccount.R;
 import ru.kbbmstu.studentaccount.Utils.HttpClient;
 
-public class ArticleActivity extends AppCompatActivity {
-    private SharedPreferences settings;
-
-    public SharedPreferences getSettings() {
-        return settings;
-    }
-
+public class ArticleActivity extends CustomActivity {
     @Override
     protected void onCreate(Bundle intent) {
         super.onCreate(intent);
         setContentView(R.layout.activity_article);
-        final ArticleActivity ttt = this;
-
-        settings = getSharedPreferences(getResources().getString(R.string.Shared_preferences_file_name), Context.MODE_PRIVATE);
+        final ArticleActivity context = this;
 
         TextView name = findViewById(R.id.articleName);
         TextView journal = findViewById(R.id.articleJournal);
+
         TextView biblioRecord = findViewById(R.id.articleBiblioRecord);
         TextView articlType = findViewById(R.id.articleArticlType);
         Button download = findViewById(R.id.articleDownload);
@@ -54,7 +47,7 @@ public class ArticleActivity extends AppCompatActivity {
             public void onClick(View v) {
                 String fileSeparator = System.getProperty("file.separator");
                 File file = new File(Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS) + fileSeparator + fileName + ".pdf");
-                HttpClient.GetStudentArticle(ttt, params.getStringExtra("id"), file);
+                HttpClient.GetStudentArticle(context, params.getStringExtra("id"), file);
             }
         });
     }

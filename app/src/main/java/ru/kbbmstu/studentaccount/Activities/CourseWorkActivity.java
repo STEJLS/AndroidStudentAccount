@@ -16,8 +16,7 @@ import android.widget.Toast;
 import ru.kbbmstu.studentaccount.R;
 import ru.kbbmstu.studentaccount.Utils.HttpClient;
 
-public class CourseWorkActivity extends AppCompatActivity {
-    private SharedPreferences settings;
+public class CourseWorkActivity extends CustomActivity {
     private CourseWorkActivity context;
 
     @Override
@@ -25,7 +24,6 @@ public class CourseWorkActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_course_work);
 
-        settings = getSharedPreferences(getResources().getString(R.string.Shared_preferences_file_name), Context.MODE_PRIVATE);
         context = this;
 
         TextView head = findViewById(R.id.courseworkHead);
@@ -73,9 +71,5 @@ public class CourseWorkActivity extends AppCompatActivity {
         });
 
 
-    }
-
-    public SharedPreferences getSettings() {
-        return settings;
     }
 }

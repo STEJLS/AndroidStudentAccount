@@ -12,20 +12,11 @@ import java.util.ArrayList;
 import cz.msebera.android.httpclient.Header;
 import ru.kbbmstu.studentaccount.Activities.MainActivity;
 import ru.kbbmstu.studentaccount.Models.Article;
-import ru.kbbmstu.studentaccount.R;
 
 public final class StudentArticlesHandler extends CustomJsonHttpResponseHandler {
 
     public StudentArticlesHandler(AppCompatActivity context) {
         super(context);
-    }
-
-    @Override
-    public void onStart() {
-        dialog.setMessage(context.getResources().getString(R.string.waitingForData));
-        if (!dialog.isShowing()) {
-            dialog.show();
-        }
     }
 
     @Override
@@ -64,13 +55,5 @@ public final class StudentArticlesHandler extends CustomJsonHttpResponseHandler 
         }
 
         return result;
-    }
-
-
-    @Override
-    public void onFinish() {
-        super.onFinish();
-        if (dialog != null)
-            dialog.dismiss();
     }
 }

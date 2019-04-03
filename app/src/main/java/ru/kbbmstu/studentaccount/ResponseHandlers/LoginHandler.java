@@ -1,9 +1,11 @@
 package ru.kbbmstu.studentaccount.ResponseHandlers;
 
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.support.v7.app.AppCompatActivity;
 import android.widget.Toast;
 
+import com.loopj.android.http.JsonHttpResponseHandler;
 import com.loopj.android.http.PersistentCookieStore;
 
 import org.json.JSONException;
@@ -14,11 +16,14 @@ import ru.kbbmstu.studentaccount.Activities.LoginActivity;
 import ru.kbbmstu.studentaccount.Activities.MainActivity;
 import ru.kbbmstu.studentaccount.R;
 
-public final class LoginHandler extends CustomJsonHttpResponseHandler {
+public final class LoginHandler extends JsonHttpResponseHandler {
     private PersistentCookieStore cookieStore;
+    protected AppCompatActivity context;
+    protected ProgressDialog dialog;
 
     public LoginHandler(AppCompatActivity context, PersistentCookieStore cookieStore) {
-        super(context);
+        super();
+        this.context = context;
         this.cookieStore = cookieStore;
     }
 
@@ -50,6 +55,12 @@ public final class LoginHandler extends CustomJsonHttpResponseHandler {
         } catch (JSONException e) {
             e.printStackTrace();
         }
+    }
+
+    @Override
+    public void onFailure(int statusCode, Header[] headers, Throwable throwable, JSONObject errorResponse) {
+        super.onFailure(statusCode, headers, throwable, errorResponse);
+        Toast.makeText(context, R.string.onFailureResponseMessage, Toast.LENGTH_LONG).show();
     }
 
     @Override

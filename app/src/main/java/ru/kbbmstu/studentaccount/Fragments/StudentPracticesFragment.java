@@ -21,7 +21,6 @@ import ru.kbbmstu.studentaccount.R;
 public final class StudentPracticesFragment extends Fragment {
     private ListView practiceList;
 
-
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

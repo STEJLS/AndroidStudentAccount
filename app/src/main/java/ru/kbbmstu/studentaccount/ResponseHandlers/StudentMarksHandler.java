@@ -9,26 +9,15 @@ import org.json.JSONObject;
 
 import java.util.ArrayList;
 import java.util.Comparator;
-import java.util.List;
 
 import cz.msebera.android.httpclient.Header;
 import ru.kbbmstu.studentaccount.Activities.MainActivity;
 import ru.kbbmstu.studentaccount.Models.Mark;
-import ru.kbbmstu.studentaccount.Models.UserInfo;
-import ru.kbbmstu.studentaccount.R;
 
 public final class StudentMarksHandler extends CustomJsonHttpResponseHandler {
 
     public StudentMarksHandler(AppCompatActivity context) {
         super(context);
-    }
-
-    @Override
-    public void onStart() {
-        dialog.setMessage(context.getResources().getString(R.string.waitingForData));
-        if (!dialog.isShowing()) {
-            dialog.show();
-        }
     }
 
     @Override
@@ -49,13 +38,6 @@ public final class StudentMarksHandler extends CustomJsonHttpResponseHandler {
             Toast.makeText(context, e.toString(), Toast.LENGTH_LONG).show();
             e.printStackTrace();
         }
-    }
-
-    @Override
-    public void onFinish() {
-        super.onFinish();
-        if (dialog != null)
-            dialog.dismiss();
     }
 
     private ArrayList<Mark> parseMarks(JSONArray marks) throws JSONException {

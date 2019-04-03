@@ -31,8 +31,7 @@ import android.widget.Toast;
 import java.util.ArrayList;
 import java.util.List;
 
-public class MainActivity extends AppCompatActivity {
-    private SharedPreferences settings;
+public class MainActivity extends CustomActivity {
     private TabLayout tabLayout;
     private ViewPager viewPager;
     private PagerAdapter pagerAdapter;
@@ -68,11 +67,11 @@ public class MainActivity extends AppCompatActivity {
                 Toast.makeText(this, "addArticle", Toast.LENGTH_LONG).show();
                 break;
             case R.id.RdpFos:
-                Toast.makeText(this, "RdpFos", Toast.LENGTH_LONG).show();
+                startActivity(new Intent(this, FOSandRPDActivity.class));
                 break;
             case R.id.logout:
                 HttpClient.Logout(this);
-                settings.edit().putString("token", "").commit();
+                getSettings().edit().putString("token", "").commit();
                 Intent intent = new Intent(this, LoginActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 finish();
@@ -87,7 +86,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main);
-        settings = getSharedPreferences(getResources().getString(R.string.Shared_preferences_file_name), Context.MODE_PRIVATE);
 
         tabLayout = findViewById(R.id.tabLayout);
         tabLayout.setTabGravity(TabLayout.GRAVITY_FILL);
@@ -104,10 +102,6 @@ public class MainActivity extends AppCompatActivity {
             HttpClient.GetStudentCourseWorks(this);
         }
         super.onResume();
-    }
-
-    public SharedPreferences getSettings() {
-        return settings;
     }
 
     private void initTab(){
