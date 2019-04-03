@@ -8,5 +8,7 @@ public class Urls {
     public static String StudentMarks = root + "/student/marks";
     public static String StudentPractices = root + "/student/practices";
     public static String StudentArticles = root + "/student/articles";
+    public static String StudentCourseWorks = root + "/student/courses";
     public static String GetArticle = root + "/student/article/";
+    public static String SetCourseWorkTheme = root + "/student/courseWork";
 }

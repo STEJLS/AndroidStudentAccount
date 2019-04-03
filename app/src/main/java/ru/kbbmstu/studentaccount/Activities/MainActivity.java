@@ -3,6 +3,7 @@ package ru.kbbmstu.studentaccount.Activities;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.support.annotation.Nullable;
 import android.support.v4.view.ViewPager;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -11,10 +12,12 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 
 import ru.kbbmstu.studentaccount.Fragments.StudentArticlesFragment;
+import ru.kbbmstu.studentaccount.Fragments.StudentCourseWorksFragment;
 import ru.kbbmstu.studentaccount.Fragments.StudentInfoFragment;
 import ru.kbbmstu.studentaccount.Fragments.StudentMarksFragment;
 import ru.kbbmstu.studentaccount.Fragments.StudentPracticesFragment;
 import ru.kbbmstu.studentaccount.Models.Article;
+import ru.kbbmstu.studentaccount.Models.CourseWork;
 import ru.kbbmstu.studentaccount.Models.Mark;
 import ru.kbbmstu.studentaccount.Models.Practice;
 import ru.kbbmstu.studentaccount.Models.UserInfo;
@@ -42,9 +45,23 @@ public class MainActivity extends AppCompatActivity {
     }
 
     @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (resultCode != RESULT_OK || data == null) {
+            return;
+        }
+
+        switch (data.getIntExtra("from", 0)) {
+            case 1:
+                HttpClient.GetStudentCourseWorks(this); // Установление темы курсовой
+        }
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (  item.getItemId()){
             case R.id.shedule:
+//                webview.loadUrl("http://google.fr/");
                 Toast.makeText(this, "shedule", Toast.LENGTH_LONG).show();
                 break;
             case R.id.addArticle:
@@ -84,6 +101,7 @@ public class MainActivity extends AppCompatActivity {
             HttpClient.GetStudentMarks(this);
             HttpClient.GetStudentPractices(this);
             HttpClient.GetStudentArticles(this);
+            HttpClient.GetStudentCourseWorks(this);
         }
         super.onResume();
     }
@@ -152,6 +170,15 @@ public class MainActivity extends AppCompatActivity {
         return null;
     }
 
+    private StudentCourseWorksFragment getStudentCourseWorksFragment() {
+        for (int i = 0; i < pagerAdapter.getCount(); i++) {
+            if (pagerAdapter.getItem(i) instanceof StudentCourseWorksFragment) {
+                return (StudentCourseWorksFragment) pagerAdapter.getItem(i);
+            }
+        }
+        return null;
+    }
+
     public void UpdateStudentInfoFragment(UserInfo model) {
         getStudentInfoFragment().updateModel(model);
     }
@@ -168,5 +195,9 @@ public class MainActivity extends AppCompatActivity {
 
     public void UpdateStudentArticlesFragment(ArrayList<Article> articles) {
         getStudentArticlesFragment().updateModel(articles);
+    }
+
+    public void UpdateStudentCourseWorkFragment(ArrayList<CourseWork> courseWorks) {
+        getStudentCourseWorksFragment().updateModel(courseWorks);
     }
 }

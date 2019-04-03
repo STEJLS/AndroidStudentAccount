@@ -11,12 +11,15 @@ import com.loopj.android.http.RequestParams;
 import java.io.File;
 
 import ru.kbbmstu.studentaccount.Activities.ArticleActivity;
+import ru.kbbmstu.studentaccount.Activities.CourseWorkActivity;
 import ru.kbbmstu.studentaccount.Activities.LoginActivity;
 import ru.kbbmstu.studentaccount.Activities.MainActivity;
 import ru.kbbmstu.studentaccount.Models.User;
 import ru.kbbmstu.studentaccount.ResponseHandlers.ArticleResponseHandler;
+import ru.kbbmstu.studentaccount.ResponseHandlers.CheckAnswerResponseHandler;
 import ru.kbbmstu.studentaccount.ResponseHandlers.LoginHandler;
 import ru.kbbmstu.studentaccount.ResponseHandlers.StudentArticlesHandler;
+import ru.kbbmstu.studentaccount.ResponseHandlers.StudentCourseWorksHandler;
 import ru.kbbmstu.studentaccount.ResponseHandlers.StudentInfoHandler;
 import ru.kbbmstu.studentaccount.ResponseHandlers.StudentMarksHandler;
 import ru.kbbmstu.studentaccount.ResponseHandlers.StudentPracticesHandler;
@@ -57,10 +60,24 @@ public final class HttpClient {
         getWithCookie(context, Urls.StudentArticles, new StudentArticlesHandler(context));
     }
 
+    public static void GetStudentCourseWorks(MainActivity context) {
+        getWithCookie(context, Urls.StudentCourseWorks, new StudentCourseWorksHandler(context));
+    }
+
     public static void GetStudentArticle(ArticleActivity context, String id, File file) {
         client.removeHeader("Cookie");
         client.addHeader("Cookie", "token=" + context.getSettings().getString("token", ""));
         client.get(Urls.GetArticle + id, null, new ArticleResponseHandler(context, file));
+    }
+
+    public static void SetCourseWorkTheme(CourseWorkActivity context, String id, String theme) {
+        client.removeHeader("Cookie");
+        client.addHeader("Cookie", "token=" + context.getSettings().getString("token", ""));
+        RequestParams params = new RequestParams();
+        params.put("theme", theme);
+        params.put("id", id);
+
+        client.post(Urls.SetCourseWorkTheme, params, new CheckAnswerResponseHandler(context));
     }
 
     // Supporting functions

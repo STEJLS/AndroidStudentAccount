@@ -10,24 +10,32 @@ import android.view.ViewGroup;
 import android.widget.ExpandableListView;
 import android.widget.SimpleExpandableListAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.Map;
 
 import ru.kbbmstu.studentaccount.Activities.ArticleActivity;
+import ru.kbbmstu.studentaccount.Activities.CourseWorkActivity;
 import ru.kbbmstu.studentaccount.Models.Article;
+import ru.kbbmstu.studentaccount.Models.CourseWork;
 import ru.kbbmstu.studentaccount.R;
 
-public class StudentArticlesFragment extends Fragment {
+public final class StudentCourseWorksFragment extends Fragment {
+    private final String confirmedTitle = "Подтвержденные курсовые";
+    private final String unConfirmedTitle = "Укажите темы курсовых работ";
+    private final String waitingForVerifTitle = "Ожидают подтверждения";
+
     private ExpandableListView expandableListView;
     private TextView emptyList;
     private TextView title;
 
     private Context context;
 
-    private ArrayList<Article> confirmed;
-    private ArrayList<Article> unConfirmed;
+    private ArrayList<CourseWork> confirmed;
+    private ArrayList<CourseWork> unConfirmed;
+    private ArrayList<CourseWork> waitingForVerif;
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -47,21 +55,25 @@ public class StudentArticlesFragment extends Fragment {
         return view;
     }
 
-    public void updateModel(ArrayList<Article> articles) {
-        if (articles.size() == 0) {
+    public void updateModel(ArrayList<CourseWork> courseWorks) {
+        if (courseWorks.size() == 0) {
             emptyList.setTextSize(20);
             emptyList.setText("У вас нет статей");
         } else {
-            title.setText("Статьи");
+            title.setText("Курсовые работы");
         }
         confirmed = new ArrayList<>();
         unConfirmed = new ArrayList<>();
+        waitingForVerif = new ArrayList<>();
 
-        for (Article article : articles) {
-            if (article.isConfirmed())
-                confirmed.add(article);
-            else
-                unConfirmed.add(article);
+        for (CourseWork work : courseWorks) {
+            if (work.isConfirmed())
+                confirmed.add(work);
+            else if (work.getTheme().isEmpty()) {
+                unConfirmed.add(work);
+            } else {
+                waitingForVerif.add(work);
+            }
         }
 
 
@@ -75,19 +87,19 @@ public class StudentArticlesFragment extends Fragment {
 
         Map<String, String> map;
         // коллекция для групп
-        ArrayList<Map<String, String>> groupDataList = new ArrayList<>();
+        final ArrayList<Map<String, String>> groupDataList = new ArrayList<>();
         // заполняем коллекцию групп из массива с названиями групп
         if (confirmed.size() != 0) {
             map = new HashMap();
-            map.put("groupName", "Подтвержденные статьи"); // время года
+            map.put("groupName", confirmedTitle); // время года
             groupDataList.add(map);
 
             // создаем коллекцию элементов для первой группы
             ArrayList<Map<String, String>> childDataItemList = new ArrayList<>();
             // заполняем список атрибутов для каждого элемента
-            for (Article article : confirmed) {
+            for (CourseWork work : confirmed) {
                 map = new HashMap<>();
-                map.put("articleName", article.getName()); // название месяца
+                map.put("articleName", work.getSubject()); // название месяца
                 childDataItemList.add(map);
             }
             // добавляем в коллекцию коллекций
@@ -96,14 +108,29 @@ public class StudentArticlesFragment extends Fragment {
 
         if (unConfirmed.size() != 0) {
             map = new HashMap();
-            map.put("groupName", "Неподтвержденные статьи"); // время года
+            map.put("groupName", unConfirmedTitle); // время года
             groupDataList.add(map);
 
             // создаем коллекцию элементов для второй группы
             ArrayList<Map<String, String>> childDataItemList = new ArrayList<>();
-            for (Article article : unConfirmed) {
+            for (CourseWork work : unConfirmed) {
                 map = new HashMap<>();
-                map.put("articleName", article.getName());
+                map.put("articleName", work.getSubject());
+                childDataItemList.add(map);
+            }
+            сhildDataList.add(childDataItemList);
+        }
+
+        if (waitingForVerif.size() != 0) {
+            map = new HashMap();
+            map.put("groupName", waitingForVerifTitle); // время года
+            groupDataList.add(map);
+
+            // создаем коллекцию элементов для второй группы
+            ArrayList<Map<String, String>> childDataItemList = new ArrayList<>();
+            for (CourseWork work : waitingForVerif) {
+                map = new HashMap<>();
+                map.put("articleName", work.getSubject());
                 childDataItemList.add(map);
             }
             сhildDataList.add(childDataItemList);
@@ -127,18 +154,20 @@ public class StudentArticlesFragment extends Fragment {
         expandableListView.setOnChildClickListener(new ExpandableListView.OnChildClickListener() {
             @Override
             public boolean onChildClick(ExpandableListView parent, View v, int groupPosition, int childPosition, long id) {
+                String accessibilityClassName = parent.getTransitionName();
+                CourseWork work = getWorksArrayByGroupPosition(groupDataList.get(groupPosition).get("groupName")).get(childPosition);
 
-                Article article = getArticlesArrayByGroupPosition(groupPosition).get(childPosition);
-                Intent intent = new Intent(context, ArticleActivity.class);
+                Intent intent = new Intent(context, CourseWorkActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                intent.putExtra("id", String.valueOf(article.getId()));
-                intent.putExtra("name", article.getName());
-                intent.putExtra("journal", article.getJournal());
-                intent.putExtra("biblioRecord", article.getBiblioRecord());
-                intent.putExtra("articlType", article.getArticlType());
-                intent.putExtra("fileName", article.getFileName());
+                intent.putExtra("id", String.valueOf(work.getId()));
+                intent.putExtra("rating", String.valueOf(work.getRating()));
+                intent.putExtra("semester", String.valueOf(work.getSemester()));
+                intent.putExtra("head", work.getHead());
+                intent.putExtra("subject", work.getSubject());
+                intent.putExtra("theme", work.getTheme());
+                intent.putExtra("confirmed", work.isConfirmed());
 
-                startActivity(intent);
+                startActivityForResult(intent, 1);
 
                 return true;
             }
@@ -151,16 +180,15 @@ public class StudentArticlesFragment extends Fragment {
 
     }
 
-    private ArrayList<Article> getArticlesArrayByGroupPosition(int groupPosition) {
-        if (confirmed.size() == 0) {
-            return unConfirmed;
-        }
+    private ArrayList<CourseWork> getWorksArrayByGroupPosition(String groupName) {
 
-        switch (groupPosition) {
-            case 0:
+        switch (groupName) {
+            case confirmedTitle:
                 return confirmed;
-            case 1:
+            case unConfirmedTitle:
                 return unConfirmed;
+            case waitingForVerifTitle:
+                return waitingForVerif;
         }
 
         return null;
