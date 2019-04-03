@@ -61,7 +61,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean onOptionsItemSelected(MenuItem item) {
         switch (  item.getItemId()){
             case R.id.shedule:
-//                webview.loadUrl("http://google.fr/");
+                startActivity(new Intent(this, SheduleActivity.class));
                 Toast.makeText(this, "shedule", Toast.LENGTH_LONG).show();
                 break;
             case R.id.addArticle:
