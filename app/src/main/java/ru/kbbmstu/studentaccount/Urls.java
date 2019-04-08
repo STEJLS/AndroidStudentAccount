@@ -2,6 +2,7 @@ package ru.kbbmstu.studentaccount;
 
 public class Urls {
     static String root = "http://185.159.128.104:3000";
+//    static String root = "http://192.168.0.111:3000";
     public static String Login = root + "/account/login";
     public static String Logout = root + "/account/logout";
     public static String StudentInfo = root + "/student/info";
@@ -10,6 +11,7 @@ public class Urls {
     public static String StudentArticles = root + "/student/articles";
     public static String StudentCourseWorks = root + "/student/courses";
     public static String GetArticle = root + "/student/article/";
+    public static String AddArticle = root + "/student/article";
     public static String GetDocumnet = root + "/student/document/";
     public static String SetCourseWorkTheme = root + "/student/courseWork";
     public static String FosAndRpd = root + "/student/FOSandRPDList";

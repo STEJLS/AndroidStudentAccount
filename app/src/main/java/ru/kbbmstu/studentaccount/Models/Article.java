@@ -20,6 +20,14 @@ public final class Article {
         this.fileName = fileName;
     }
 
+    public Article(String name, String journal, String biblioRecord, String articlType, String fileName) {
+        this.name = name;
+        this.journal = journal;
+        this.biblioRecord = biblioRecord;
+        this.articlType = articlType;
+        this.fileName = fileName;
+    }
+
     public String getFileName() {
         return fileName;
     }

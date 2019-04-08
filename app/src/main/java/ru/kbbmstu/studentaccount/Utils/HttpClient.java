@@ -6,12 +6,15 @@ import com.loopj.android.http.PersistentCookieStore;
 import com.loopj.android.http.RequestParams;
 
 import java.io.File;
+import java.io.FileInputStream;
+import java.io.FileNotFoundException;
 
 import ru.kbbmstu.studentaccount.Activities.CustomActivity;
 import ru.kbbmstu.studentaccount.Activities.LoginActivity;
+import ru.kbbmstu.studentaccount.Models.Article;
 import ru.kbbmstu.studentaccount.Models.User;
-import ru.kbbmstu.studentaccount.ResponseHandlers.FileResponseHandler;
 import ru.kbbmstu.studentaccount.ResponseHandlers.CheckAnswerResponseHandler;
+import ru.kbbmstu.studentaccount.ResponseHandlers.FileResponseHandler;
 import ru.kbbmstu.studentaccount.ResponseHandlers.FosAndRpdHandler;
 import ru.kbbmstu.studentaccount.ResponseHandlers.LoginHandler;
 import ru.kbbmstu.studentaccount.ResponseHandlers.StudentArticlesHandler;
@@ -25,7 +28,7 @@ public final class HttpClient {
 
     private static AsyncHttpClient client = new AsyncHttpClient();
 
-    public static void Login(final LoginActivity context, User user){
+    public static void Login(final LoginActivity context, User user) {
         RequestParams params = new RequestParams();
         params.put("login", user.getLogin());
         params.put("password", user.getPassword());
@@ -74,9 +77,26 @@ public final class HttpClient {
         RequestParams params = new RequestParams();
         params.put("theme", theme);
         params.put("id", id);
-
-        client.post(Urls.SetCourseWorkTheme, params, new CheckAnswerResponseHandler(context));
+        client.post(Urls.SetCourseWorkTheme, params, new CheckAnswerResponseHandler(context, 1));
     }
+
+    public static void AddArticle(CustomActivity context, Article newArticle, File newArticleFile) throws FileNotFoundException {
+        client.removeHeader("Cookie");
+        client.addHeader("Cookie", "token=" + context.getSettings().getString("token", ""));
+
+        RequestParams params = new RequestParams();
+        params.put("name", newArticle.getName());
+        params.put("journal", newArticle.getJournal());
+        params.put("biblioRecord", newArticle.getBiblioRecord());
+        params.put("type", newArticle.getArticlType());
+        if (newArticleFile != null) {
+            params.put("article", new FileInputStream(newArticleFile), newArticle.getFileName());
+        }
+
+        client.setConnectTimeout(10000000);
+        client.post(Urls.AddArticle, params, new CheckAnswerResponseHandler(context, 2));
+    }
+
 
     public static void GetFosAndRpd(CustomActivity context) {
         getWithCookie(context, Urls.FosAndRpd, new FosAndRpdHandler(context));
@@ -90,7 +110,10 @@ public final class HttpClient {
 
     private static void setCookie(CustomActivity context) {
         client.removeHeader("Cookie");
-        client.addHeader("Cookie", "token="+context.getSettings().getString("token",""));
+        String token = context.getSettings().getString("token", "");
+
+//        client.addHeader("Cookie", "token=" + "67b706cd-5a8f-45b6-a37a-a5423117fdd7"+";domain=192.168.0.111;Path=/");
+        client.addHeader("Cookie", "token=" + token);
     }
 
     private static void GetFile(CustomActivity context, String url, File file) {

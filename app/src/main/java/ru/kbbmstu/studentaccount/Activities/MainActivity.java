@@ -53,6 +53,8 @@ public class MainActivity extends CustomActivity {
         switch (data.getIntExtra("from", 0)) {
             case 1:
                 HttpClient.GetStudentCourseWorks(this); // Установление темы курсовой
+            case 2:
+                HttpClient.GetStudentArticles(this); // Установление статей
         }
     }
 
@@ -61,10 +63,10 @@ public class MainActivity extends CustomActivity {
         switch (  item.getItemId()){
             case R.id.shedule:
                 startActivity(new Intent(this, SheduleActivity.class));
-                Toast.makeText(this, "shedule", Toast.LENGTH_LONG).show();
                 break;
             case R.id.addArticle:
-                Toast.makeText(this, "addArticle", Toast.LENGTH_LONG).show();
+
+                startActivityForResult(new Intent(this, AddArticleActivity.class), 2);
                 break;
             case R.id.RdpFos:
                 startActivity(new Intent(this, FOSandRPDActivity.class));

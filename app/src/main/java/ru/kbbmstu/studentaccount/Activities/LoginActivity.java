@@ -53,9 +53,7 @@ public class LoginActivity extends AppCompatActivity implements View.OnClickList
 
         if (!permissionGranted) {
             checkPermissions(this);
-            return;
         }
-
 
         loginButton.setOnClickListener(this);
     }

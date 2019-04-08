@@ -25,6 +25,7 @@ public final class LoginHandler extends JsonHttpResponseHandler {
         super();
         this.context = context;
         this.cookieStore = cookieStore;
+        this.dialog = new ProgressDialog(context);
     }
 
     @Override
@@ -45,7 +46,8 @@ public final class LoginHandler extends JsonHttpResponseHandler {
 
             if (context instanceof LoginActivity){
                 LoginActivity loginActivity = (LoginActivity)context;
-                loginActivity.getSettings().edit().putString("token", cookieStore.getCookies().get(0).getValue()).commit();
+                String value = cookieStore.getCookies().get(0).getValue();
+                loginActivity.getSettings().edit().putString("token", cookieStore.getCookies().get(0).getValue()).apply();
 
                 Intent intent = new Intent(context, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
